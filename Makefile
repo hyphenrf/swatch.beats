@@ -1,5 +1,5 @@
 PREFIX 	= 	/usr
-CC 		= 	gcc
+CC 	= 	gcc
 CFLAGS 	= 	"-O3 -march=native"
 BINDIR  = 	$(PREFIX)/bin
 BINNAME = 	beats
