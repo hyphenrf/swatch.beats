@@ -1,22 +1,24 @@
-PREFIX 	= 	/usr
-CC 	= 	gcc
-CFLAGS 	= 	"-O3 -march=native"
-BINDIR  = 	$(PREFIX)/bin
-BINNAME = 	beats
+CC	?= 	gcc
+CFLAGS	?= 	-s -Os -march=native
+PREFIX	= 	$(DESTDIR)/usr
+BINDIR	= 	$(PREFIX)/bin
+NAME	=	beats
 
-.PHONY: beats install uninstall clean
+.PHONY: all install uninstall clean
 
-all: beats
+all: $(NAME)
 
-beats: beats.c
-	CFLAGS=$(CFLAGS) $(CC) beats.c -o $(BINNAME)
+$(NAME): $(NAME).o
+	$(CC) $(LDFLAGS) -o $@ $<
 
-install: $(BINNAME)
-	-mkdir -p $(BINDIR)
-	install -m '0755' $(BINNAME) $(BINDIR)/$(BINNAME)
+install: $(NAME)
+	install -Dm 0755 $< $(BINDIR)
 
 uninstall:
-	rm -f $(BINDIR)/$(BINNAME)
+	rm -f $(BINDIR)/$(NAME)
 
 clean:
-	rm -f $(BINNAME)
+	rm -f $(NAME) *.o
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $<
